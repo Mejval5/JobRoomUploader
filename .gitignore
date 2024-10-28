@@ -1,0 +1,8 @@
+user_config.json
+prepared_jsons/
+uploaded_jsons/
+JobSearch - All.tsv
+all_uploads.json
+__pycache__/
+.venv/
+**egg-info/
