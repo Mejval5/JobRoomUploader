@@ -25,9 +25,9 @@ This tool can do:
 - **Setup repo**: `pip install -e .`
 - **Install Dependencies**: `pip install -r requirements.txt`
 - **User Config**: An API token, user Id, and unique URL Id stored in `user_config.json` for authentication with the ORP platform. 
-   - `url_special_id` is the unique identifier for the ORP platform URL. You can get it by opening any job already posted by clicking on it (it looks like edit mode of the job) and the Id after `https://www.job-room.ch/work-efforts/edit/` is the `url_special_id`. Do not copy the job id though, it is separated after with a `/`.
    - `user_id` is the user id of the user who is posting the job. This one you can only see if you create/edit any job application and check the request payload in the network tab of the browser.
    - `bearer_token` is the token that you can get by inspecting the network tab of the browser when you are logged in and posting a job application. It is the `Authorization` header in the request payload. (don't forget to remove the `Bearer ` part of the token)
+- **Months Config**: Each month in the API calls needs to be resolved into a special kind of GUID. I have created `months.json` which is tracked and contains mapping for the GUIDs. You can get the GUIDs for months either by looking into the network tab of the browser when you open the job application page and look for the response payload. Each months' applications are sorted inside an object with the key as the GUID of the month. You can also get the GUIDs by editing any job application and looking at the URL of the page. The GUID is just after the `edit/` part of the URL. Don't copy the item GUID, it is separated by `/`.
 
 ### Folder Structure
 

@@ -2,7 +2,12 @@ import os
 import json
 import requests
 
-from helpers import generate_job_hash, get_user_config
+from helpers import (
+    generate_job_hash,
+    get_base_api_url_of_work_efforts_for_month,
+    get_month_guid,
+    get_user_config,
+)
 
 # Constants
 UPLOADED_FOLDER = "./uploaded_jsons"
@@ -10,7 +15,6 @@ ALL_UPLOADS_FILE = "./all_uploads.json"
 
 # Load the user configuration
 user_config = get_user_config()
-delete_url_template = f"https://www.job-room.ch/onlineform-service/api/npa/{user_config["url_special_id"]}/work-efforts/{{}}?_ng=ZnI="
 bearer_token = user_config["bearer_token"]
 
 # Headers for the request
@@ -39,6 +43,7 @@ for filename in os.listdir(UPLOADED_FOLDER):
         with open(file_path, "r", encoding="utf-8") as file:
             job_data = json.load(file)
             job_id = job_data.get("id")
+            apply_date = job_data.get("applyDate")
             job_hash = generate_job_hash(job_data)
 
             if not job_id:
@@ -46,10 +51,10 @@ for filename in os.listdir(UPLOADED_FOLDER):
                 continue
 
         # Construct the DELETE URL
-        delete_url = delete_url_template.format(job_id)
+        delete_url = f"{get_base_api_url_of_work_efforts_for_month(apply_date)}/{job_id}?_ng=ZnI="
 
         # Perform the DELETE request
-        response = requests.delete(delete_url, headers=headers)
+        response = requests.delete(delete_url, headers=headers, timeout=30)
 
         # Check if the deletion was successful
         if response.status_code == 204:

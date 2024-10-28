@@ -2,7 +2,11 @@ import os
 import json
 import requests
 
-from helpers import generate_job_hash, get_user_config
+from helpers import (
+    generate_job_hash,
+    get_base_api_url_of_work_efforts_for_month,
+    get_user_config,
+)
 
 
 # Constants
@@ -12,7 +16,6 @@ ALL_UPLOADS_FILE = "./all_uploads.json"
 
 # Load the user configuration
 user_config = get_user_config()
-update_url = f"https://www.job-room.ch/onlineform-service/api/npa/{user_config["url_special_id"]}/work-efforts?userId={user_config["user_id"]}&_ng=ZnI="
 bearer_token = user_config["bearer_token"]
 
 # Headers for the request
@@ -76,6 +79,9 @@ for filename in os.listdir(JSON_FOLDER):
             }
             if "REJECTED" in apply_status:
                 update_payload["rejectionReason"] = rejection_reason
+
+            apply_date = payload["applyDate"]
+            update_url = f"{get_base_api_url_of_work_efforts_for_month(apply_date)}?userId={user_config["user_id"]}&_ng=ZnI="
 
             # Perform the update request
             response = requests.patch(
