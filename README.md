@@ -4,7 +4,7 @@ This project automates the process of managing job applications by converting a 
 
 ## Usage
 Designed for this website: https://www.job-room.ch/work-efforts
-Designed to be usable with GitHub Projects' default export.
+Designed to be usable with GitHub Projects' default export -> My example projects with all fields: https://github.com/users/Mejval5/projects/4/views/1
 
 ## Overview
 
